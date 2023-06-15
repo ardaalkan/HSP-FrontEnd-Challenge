@@ -2,8 +2,8 @@ import { Layout, Typography, Space, Menu, Avatar } from "antd";
 import { DashboardOutlined, UserOutlined } from "@ant-design/icons";
 const { Header, Footer, Sider, Content } = Layout;
 import { Routes, Route, Link } from "react-router-dom";
-import DashboardComponent from "./components/DashboardComponent";
-import UsersComponent from "./components/UsersComponent";
+import DashboardComponent from "./views/DashboardComponent";
+import UsersComponent from "./views/UsersComponent";
 
 const url =
   "https://cdn.iconscout.com/icon/free/png-256/free-data-science-46-1170621.png";
