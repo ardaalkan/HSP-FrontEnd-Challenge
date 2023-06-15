@@ -20,7 +20,7 @@ const menuItems: MenuItem[] = [
     key: "1",
     text: "Dashboard",
     icon: <DashboardOutlined style={{ fontSize: "20px" }} />,
-    link: "/dashboard",
+    link: "/",
   },
   {
     key: "2",
@@ -66,13 +66,13 @@ const App: React.FC = () => {
               strong
               style={{ color: "white", fontSize: "20px", marginLeft: "10px" }}
             >
-              HSP-Frontend-Case
+              HSP Frontend Challenge
             </Typography.Text>
           </Space>
         </Header>
         <Content>
           <Routes>
-            <Route path="/dashboard" Component={DashboardComponent} />
+            <Route path="/" Component={DashboardComponent} />
             <Route path="/users" Component={UsersComponent} />
           </Routes>
         </Content>
