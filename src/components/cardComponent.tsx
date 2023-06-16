@@ -12,7 +12,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
   description,
 }) => {
   return (
-    <div className="w-full h-60 bg-gradient-to-b from-gray-100 to-gray-200 flex flex-col rounded-md shadow-md ring-2 ring-gray-200 hover:scale-102 hover:duration-300 transition-all">
+    <div className="w-full h-60 bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col rounded-md shadow-md ring-2 ring-gray-200 hover:scale-102 hover:duration-300 transition-all">
       <div className="flex flex-with-border">
         <span className="pl-6 pt-5">
           <Avatar icon={<UserOutlined />} />

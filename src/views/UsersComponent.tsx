@@ -1,6 +1,7 @@
-import React from "react";
-import { Row, Col, Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Table, Modal } from "antd";
 import { useQuery } from "react-query";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 interface UserData {
   id: number;
@@ -18,10 +19,18 @@ const fetchUsers = async (): Promise<UserData[]> => {
 
 const UsersComponent: React.FC = () => {
   const {
-    data: userData,
+    data: fetchedData,
     isLoading,
     error,
-  } = useQuery<UserData[]>("userData", fetchUsers, { staleTime: 10000 });
+  } = useQuery<UserData[]>("userData", fetchUsers, { staleTime: 50000 });
+
+  const [userData, setUserData] = useState<UserData[]>([]);
+
+  useEffect(() => {
+    if (fetchedData) {
+      setUserData(fetchedData);
+    }
+  }, [fetchedData]);
 
   const columns = [
     {
@@ -36,7 +45,37 @@ const UsersComponent: React.FC = () => {
       title: "Username",
       dataIndex: "username",
     },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (_, record: UserData) => {
+        return (
+          <>
+            <DeleteOutlined
+              style={{ color: "red", margin: "5px" }}
+              onClick={() => Delete(record)}
+            />
+            {/* <EditOutlined
+              style={{ color: "blue", margin: "5px" }}
+              onClick={() => {}}
+            /> */}
+          </>
+        );
+      },
+    },
   ];
+
+  const Delete = (record: UserData) => {
+    console.log("delete funcs")
+    Modal.confirm({
+      title: "Are you sure you want to delete this?",
+      onOk: () => {
+        setUserData((data) => {
+          return data.filter((person) => person.id !== record.id);
+        });
+      },
+    });
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -57,7 +96,7 @@ const UsersComponent: React.FC = () => {
             bordered
             dataSource={userData}
             columns={columns}
-            pagination={{ pageSize: 5 }}
+            pagination={{ pageSize: 10 }}
           ></Table>
         </Col>
       </Row>
