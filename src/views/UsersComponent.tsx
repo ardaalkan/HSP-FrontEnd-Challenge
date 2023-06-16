@@ -27,6 +27,7 @@ const UsersComponent: React.FC = () => {
   const [userData, setUserData] = useState<UserData[]>([]);
   const [show, setShow] = useState<boolean>(false);
   const [editUser, setEditUser] = useState<UserData | null>(null);
+  const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (fetchedData) {
@@ -57,16 +58,33 @@ const UsersComponent: React.FC = () => {
     setShow(false);
   };
 
+  const resetAdd = () => {
+    setShowAddModal(false);
+  };
+
   const columns = [
     {
       key: "id",
       title: "ID",
       dataIndex: "id",
+      sorter: (a: { name: number }, b: { name: number }) => a.name > b.name,
+      sortDirections: ["descend"],
     },
     {
       key: "name",
       title: "Name",
       dataIndex: "name",
+      filters: [
+        {
+          text: "Leanne Graham",
+          value: "Leanne Graham",
+        },
+        {
+          text: "Ervin Howell",
+          value: "Ervin Howell",
+        },
+      ],
+      onFilter: (value: any, record: { name: string | any[]; }) => record.name.indexOf(value) === 0,
     },
     {
       key: "username",
@@ -78,7 +96,7 @@ const UsersComponent: React.FC = () => {
       title: "Action",
       dataIndex: "action",
 
-      render: (_, record: UserData) => {
+      render: (_: any, record: UserData) => {
         return (
           <>
             <DeleteOutlined
@@ -111,7 +129,13 @@ const UsersComponent: React.FC = () => {
     <div className="p-6">
       <Row gutter={1} style={{ marginTop: 10 }}>
         <Col span={18}>
-          <Button type="primary">Add New User</Button>
+          <Button
+            type="primary"
+            style={{ marginBottom: 10 }}
+            onClick={() => setShowAddModal(true)}
+          >
+            Add New User
+          </Button>
           <Table
             bordered
             dataSource={userData}
@@ -154,6 +178,53 @@ const UsersComponent: React.FC = () => {
             <Input
               style={{ margin: "10px" }}
               value={editUser?.username}
+              onChange={(e) => {
+                setEditUser((prevUser) => {
+                  if (prevUser) {
+                    return { ...prevUser, username: e.target.value };
+                  }
+                  return prevUser;
+                });
+              }}
+            />
+          </Modal>
+          <Modal
+            title="Add User"
+            visible={showAddModal}
+            okText="Add"
+            onCancel={() => {
+              resetAdd();
+            }}
+            onOk={() => {
+              setUserData((prevData: UserData[]) => {
+                return prevData.map((user) => {
+                  if (user.id === editUser?.id) {
+                    return editUser;
+                  } else {
+                    return user;
+                  }
+                });
+              });
+              resetEditing();
+            }}
+          >
+            <Input
+              style={{ margin: "10px" }}
+              value={editUser?.name}
+              placeholder="Name - Surname"
+              onChange={(e) => {
+                setEditUser((prevUser) => {
+                  if (prevUser) {
+                    return { ...prevUser, name: e.target.value };
+                  }
+                  return prevUser;
+                });
+              }}
+            />
+            <Input
+              style={{ margin: "10px" }}
+              value={editUser?.username}
+              placeholder="Username"
               onChange={(e) => {
                 setEditUser((prevUser) => {
                   if (prevUser) {
