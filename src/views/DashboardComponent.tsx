@@ -38,25 +38,30 @@ const DashboardComponent: React.FC = () => {
 
   const lastUser: UserData | undefined = userData?.[userData.length - 1];
 
+  const randomUser: UserData | undefined =
+    userData && userData.length > 0
+      ? userData[Math.floor(Math.random() * userData.length)]
+      : undefined;
+
   return (
     <div className="p-6">
       <Row gutter={[16, 16]}>
         <Col span={8}>
           <CardComponent
-            title="Kullanici Verisi"
-            description={`Toplam Kullanici Sayisi : ${userData?.length}`}
+            title="User Data"
+            description={`Total Number of Users : ${userData?.length}`}
           />
         </Col>
         <Col span={8}>
           <CardComponent
-            title="Son Kayit Olan Kullanicilar"
-            description={`Son Kayit Olan Kullanici : ${lastUser?.name}`}
+            title="Last Registered Users"
+            description={`Last Registered Users : ${lastUser?.name}`}
           />
         </Col>
         <Col span={8}>
           <CardComponent
-            title="En Aktif Kullanicilar"
-            description="En Aktif Kullanici Sayisi"
+            title="Random User"
+            description={`Random User : ${randomUser?.name}`}
           />
         </Col>
       </Row>

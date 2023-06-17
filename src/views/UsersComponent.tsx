@@ -28,7 +28,6 @@ const UsersComponent: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
   const [editUser, setEditUser] = useState<UserData | null>(null);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-  const [addId, setAddId] = useState<number | null>(null);
   const [addName, setAddName] = useState<string>("");
   const [addUserName, setAddUserName] = useState<string>("");
 
