@@ -28,6 +28,9 @@ const UsersComponent: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
   const [editUser, setEditUser] = useState<UserData | null>(null);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [addId, setAddId] = useState<number | null>(null);
+  const [addName, setAddName] = useState<string>("");
+  const [addUserName, setAddUserName] = useState<string>("");
 
   useEffect(() => {
     if (fetchedData) {
@@ -84,7 +87,8 @@ const UsersComponent: React.FC = () => {
           value: "Ervin Howell",
         },
       ],
-      onFilter: (value: any, record: { name: string | any[]; }) => record.name.indexOf(value) === 0,
+      onFilter: (value: unknown, record: { name: string | unknown[] }) =>
+        record.name.indexOf(value) === 0,
     },
     {
       key: "username",
@@ -196,42 +200,29 @@ const UsersComponent: React.FC = () => {
               resetAdd();
             }}
             onOk={() => {
-              setUserData((prevData: UserData[]) => {
-                return prevData.map((user) => {
-                  if (user.id === editUser?.id) {
-                    return editUser;
-                  } else {
-                    return user;
-                  }
-                });
-              });
-              resetEditing();
+              const newUser: UserData = {
+                id: parseInt(String(Math.random() * 1000)),
+                name: addName,
+                username: addUserName,
+              };
+              setUserData((prevData: UserData[]) => [...prevData, newUser]);
+              resetAdd();
             }}
           >
             <Input
               style={{ margin: "10px" }}
-              value={editUser?.name}
+              value={addName}
               placeholder="Name - Surname"
               onChange={(e) => {
-                setEditUser((prevUser) => {
-                  if (prevUser) {
-                    return { ...prevUser, name: e.target.value };
-                  }
-                  return prevUser;
-                });
+                setAddName(e.target.value);
               }}
             />
             <Input
               style={{ margin: "10px" }}
-              value={editUser?.username}
+              value={addUserName}
               placeholder="Username"
               onChange={(e) => {
-                setEditUser((prevUser) => {
-                  if (prevUser) {
-                    return { ...prevUser, username: e.target.value };
-                  }
-                  return prevUser;
-                });
+                setAddUserName(e.target.value);
               }}
             />
           </Modal>
