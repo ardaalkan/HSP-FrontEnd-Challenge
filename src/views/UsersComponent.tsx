@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Table, Modal, Input, Button } from "antd";
 import { useQuery } from "react-query";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { SortOrder } from "antd/lib/table/interface";
 
 interface UserData {
   id: number;
@@ -69,8 +70,8 @@ const UsersComponent: React.FC = () => {
       key: "id",
       title: "ID",
       dataIndex: "id",
-      sorter: (a: { name: number }, b: { name: number }) => a.name > b.name,
-      sortDirections: ["descend"],
+      sorter: (a: UserData, b: UserData) => a.name.localeCompare(b.name),
+      sortDirections: ["ascend", "descend"] as SortOrder[],
     },
     {
       key: "name",
@@ -86,7 +87,7 @@ const UsersComponent: React.FC = () => {
           value: "Ervin Howell",
         },
       ],
-      onFilter: (value: unknown, record: { name: string | unknown[] }) =>
+      onFilter: (value: string, record: { name: string | unknown[] }) =>
         record.name.indexOf(value) === 0,
     },
     {
@@ -98,7 +99,6 @@ const UsersComponent: React.FC = () => {
       key: "action",
       title: "Action",
       dataIndex: "action",
-
       render: (_: any, record: UserData) => {
         return (
           <>
@@ -142,7 +142,7 @@ const UsersComponent: React.FC = () => {
           <Table
             bordered
             dataSource={userData}
-            columns={columns}
+            columns={columns as any}
             pagination={{ pageSize: 10 }}
             rowKey={(record) => record.id.toString()}
           ></Table>
