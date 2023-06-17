@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "antd";
-import CardComponent from "../components/CardComponent";
+import CardComponent from "../components/CardComponent.tsx";
 import { useQuery } from "react-query";
 
 interface UserData {
